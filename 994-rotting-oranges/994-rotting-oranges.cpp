@@ -1,90 +1,68 @@
 class Solution {
 public:
-    vector<vector<int>> func(vector<vector<int>>&grid,int i,int j){
-        int m=grid.size();
-        int n=grid[i].size();
-        if(i<m-1&&grid[i+1][j]){
-            grid[i+1][j]=2;
-        }
-        if(j<n-1&&grid[i][j+1]){
-            grid[i][j+1]=2;
-        }
-        if(i>0&&grid[i-1][j]){
-            grid[i-1][j]=2;
-        }
-        if(j>0&&grid[i][j-1]){
-            grid[i][j-1]=2;
-        }
-        
-        return grid;
-    }
+
     int orangesRotting(vector<vector<int>>& grid) {
         int m=grid.size();
         int n=grid[0].size();
-        int count=0;
+        int fresh_count=0;
+        int time=-1;
+        queue<pair<int,int>>rot;
         
         for(int i=0;i<m;i++){
-            for(int j=0;j<n;j++){
-                count=0;
-                if(grid[i][j]==1){          
-        if(i<m-1&&grid[i+1][j]){
-            count++;
-        }
-        if(j<n-1&&grid[i][j+1]){
-                        count++;
-
-        }
-        if(i>0&& grid[i-1][j]){
-                        count++;
-
-        }
-        if(j>0&&grid[i][j-1]){
-                        count++;
-
-        }
-                    if(count==0){
-            return -1;
-        }
-                }
-                
-            }
-        }
-        
-        count=0;
-        for(int i=0;i<m;i++){
-            for(int j=0;j<n;j++){
-                if(grid[i][j]==1){
-                    count++;
-                }
-            }
-        }
-        
-        vector<vector<int>> grid_1=grid;
-        int mins=0;
-        while(count){
-            int temp=count;
-            for(int i=0;i<m;i++){
             for(int j=0;j<n;j++){
                 if(grid[i][j]==2){
-                    func(grid_1,i,j);
+                    rot.push({i,j});
                 }
-            }
+                if(grid[i][j]==1){
+                    fresh_count++;
+                }
+            }}
+  if(rot.empty()&& fresh_count==0){
+      return 0;
+  }      
+        while(!rot.empty()){
+            int rotten_count=rot.size();
+            
+            while(rotten_count){
+                pair<int,int>cur=rot.front();
+                int i=cur.first;
+                int j=cur.second;
+                 if(i<m-1&&grid[i+1][j]==1){
+            grid[i+1][j]=2;
+            rot.push({i+1,j});
         }
-            grid=grid_1;
-               count=0;
-        for(int i=0;i<m;i++){
+        if(j<n-1&&grid[i][j+1]==1){
+            grid[i][j+1]=2;
+            rot.push({i,j+1});
+        }
+        if(i>0&&grid[i-1][j]==1){
+            grid[i-1][j]=2;
+                        rot.push({i-1,j});
+
+        }
+        if(j>0&&grid[i][j-1]==1){
+            grid[i][j-1]=2;
+                        rot.push({i,j-1});
+
+        }
+                rot.pop();
+				rotten_count--;
+            }
+
+            time=time+1;
+        }
+    fresh_count=0;    
+for(int i=0;i<m;i++){
             for(int j=0;j<n;j++){
                 if(grid[i][j]==1){
-                    count++;
+                    fresh_count++;
+                    
                 }
-            }
-        }
-                mins++;
-            if(temp==count){
-                return -1;
-            }
-        }
-    return mins;
+            }}
+	if(fresh_count){
+		return -1;
+	}
+    return time;
         
     }
 };
