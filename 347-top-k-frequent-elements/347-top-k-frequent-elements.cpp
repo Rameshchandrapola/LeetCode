@@ -8,17 +8,13 @@ public:
         }
         priority_queue<pair<int,int>>pq;
         for(auto itr:mp){
-            pair<int,int>temp;
-            temp.first=itr.second;
-            temp.second=itr.first;
-            pq.push(temp);
+            pq.push({itr.second,itr.first});
         }
 
         vector<int>ans;
         for(int i=0;i<k;i++){
-            auto itr=pq.top();
+            ans.push_back(pq.top().second);
             pq.pop();
-            ans.push_back(itr.second);
         }
         return ans;
     }
