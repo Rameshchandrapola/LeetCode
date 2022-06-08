@@ -11,17 +11,20 @@
  */
 class Solution {
 public:
-    vector<int> stream;
-    void solve(TreeNode* root){
-        if(root==NULL){
+    int ans;
+    void inorder(TreeNode* root,int &k){
+        if(!root){
             return;
         }
-        solve(root->left);
-        stream.push_back(root->val);
-        solve(root->right);
+        inorder(root->left,k);
+        if(--k==0){
+            ans=root->val;
+            return;
+        }
+        inorder(root->right,k);
     }
     int kthSmallest(TreeNode* root, int k) {
-        solve(root);
-        return stream[k-1];
+        inorder(root,k);
+        return ans;
     }
 };
