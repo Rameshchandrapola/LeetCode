@@ -8,10 +8,7 @@ public:
         }
         for(auto it:nums2){
             if(mp[it]>0)
-            {
-                mp[it]--;
-                ans.push_back(it);
-            }
+                mp[it]--,ans.push_back(it);
         }
         return ans;
     }
